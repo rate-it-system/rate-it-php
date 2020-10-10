@@ -2,42 +2,42 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Boolean;
 
-class User extends Authenticatable
+class User
 {
-    use HasFactory, Notifiable;
+    public static int $FIND_USER_BY_MAIL = 1;
+    public static int $FIND_USER_BY_ID = 2;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public static User $currentUser;
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    private string $databaseID;
+    private string $name;
+    private string $email;
+    private Boolean $emailVerified;
+    private string $tokenToVeriEmail;
+    private string $tokenToResetPassword;
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    function __construct($value, int $findUserBy = 1)
+    {
+        $databaseUser = DB::table('user')
+            ->select(['id', 'name', 'email', 'email_verified_at', 'remember_token'])
+            ->where((($findUserBy === User::$FIND_USER_BY_MAIL) ? "email" : "id"), $value)
+            ->first();
+        if ($databaseUser == null) {
+            throw new Exception('Cannot load user ' . $value . ' by ' . (($findUserBy === User::$FIND_USER_BY_MAIL) ? "email" : "id"));
+        }
+        $this->databaseID = $databaseUser->id;
+        $this->name = $databaseUser->name;
+        $this->email = $databaseUser->email;
+        if ($databaseUser->email_verified_at) {
+            $this->emailVerified = true;
+            $this->tokenToVeriEmail = null;
+        } else {
+            $this->emailVerified = false;
+            $this->tokenToVeriEmail = $databaseUser->remember_token;
+        }
+        $this->databaseID = $databaseUser->id;
+    }
 }
