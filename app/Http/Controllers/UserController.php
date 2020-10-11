@@ -17,9 +17,14 @@ class UserController extends Controller
     public function login(Request $request)
     {
         if (Auth::loginByPassword($request->input('email'), $request->input('password'))) {
-            return redirect('/');;
+            return redirect('/');
         } else {
             return view('Auth/login', ['msg' => "Logowanie nieudane", 'email' => $request->input('email')]);
         }
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/login');;
     }
 }
