@@ -4,10 +4,29 @@
 namespace App\Services;
 
 
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class Auth
 {
+    /**
+     * @var User|null
+     */
+    private static ?User $currentUser = null;
+
+    /**
+     * @return User
+     * return currentUser if is logged or null if not
+     * while first run user is taking from database
+     */
+    public static function getCurrentUser(): User
+    {
+        if (self::isLogin() && self::$currentUser === null) {
+            self::$currentUser = new User($_SESSION['userid']);
+        }
+        return self::$currentUser;
+    }
+
     /**
      * @param string $page
      * When you execute this method then dependency if user is login or do nothing or redirect to page from parameters;
@@ -47,7 +66,7 @@ class Auth
             ->select('id')
             ->where('email', $login)
             ->whereRaw('password = PASSWORD(?)', [$password])
-            -> first();
+            ->first();
         if ($userBD === null) {
             return false;
         } else {
@@ -61,7 +80,7 @@ class Auth
      * method logout current user
      * method is safety for not logged user
      */
-    public static function logout():void
+    public static function logout(): void
     {
         $_SESSION['logged'] = false;
     }
@@ -71,7 +90,8 @@ class Auth
      * @return bool
      * method return current login status
      */
-    public static function isLogin():bool{
+    public static function isLogin(): bool
+    {
         if (@$_SESSION['logged'] === true) {
             return true;
         } else {
