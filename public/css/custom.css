@@ -1,0 +1,21 @@
+.opacityable {
+    opacity: 0.4;
+    transition-duration: 0.4s;
+}
+.opacityable:hover {
+    opacity: 1;
+    transition-duration: 0.4s;
+}
+
+.scalable-0-8 {
+    transform: scale(0.8);
+    transition-duration: 0.4s;
+}
+.scalable-0-8:hover {
+    transform: scale(1);
+    transition-duration: 0.4s;
+}
+.login-message{
+    padding: 10px;
+    color: red;
+}

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('Auth/login');
-});
+use App\Http\Controllers\UserController;
+Route::get('/login',[UserController::class, 'loginPage']);
+Route::post('/login',[UserController::class, 'login']);
+
+use App\Http\Controllers\MainController;
+Route::get('/',[MainController::class, 'home']);
