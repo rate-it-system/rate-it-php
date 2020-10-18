@@ -19,3 +19,8 @@ Route::post('/logout',[UserController::class, 'logout']);
 
 use App\Http\Controllers\MainController;
 Route::get('/',[MainController::class, 'home']);
+
+
+
+use App\Http\Controllers\DegustationController;
+Route::get('/degustation/list',[DegustationController::class, 'list']);

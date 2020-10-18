@@ -7,16 +7,15 @@ namespace App\Http\Controllers;
 use App\Services\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class MainController
+class DegustationController
 {
     public function __construct()
     {
         Auth::securePage();
     }
 
-    public function home()
+    public function list()
     {
-        echo "dziala";
-        die();
+        return view('app/list');
     }
 }
