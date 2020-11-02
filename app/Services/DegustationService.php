@@ -6,7 +6,7 @@ namespace App\Services;
 
 use App\Models\User;
 
-class Degustation
+class DegustationService
 {
     public function create(string $name, $arrayUserList)
     {

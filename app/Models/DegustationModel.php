@@ -3,7 +3,7 @@
 namespace App\Models;
 
 
-class Degustation
+class DegustationModel
 {
     private array $admins;
     private array $viewers;
