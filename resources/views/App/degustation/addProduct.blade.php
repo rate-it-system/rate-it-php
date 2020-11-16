@@ -23,7 +23,6 @@
                 <li>{{ $row->getName() }}</li>
             @endforeach
         </ul>
-        <a href="{{ URL::route('create') }}">dodaj</a>
     </div>
 
 @endsection

@@ -17,13 +17,12 @@
 
 @section('content')
     <div>
-            Lista
-        <ul>
-            @foreach ($list as $row)
-                <li>{{ $row->getName() }}</li>
-            @endforeach
-        </ul>
-        <a href="{{ URL::route('create') }}">dodaj</a>
+        Nazwij swoją degustację
+        <form action="?" method="post">
+            @csrf
+            <input name="name" placeholder="Nazwa" /><br />
+            <input type="submit" value="Dodaj" />
+        </form>
     </div>
 
 @endsection
