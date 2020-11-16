@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 
 use App\Services\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class MainController
 {
@@ -16,7 +15,6 @@ class MainController
 
     public function home()
     {
-        echo "dziala";
-        die();
+        return view('App/list');
     }
 }
