@@ -14,6 +14,14 @@ class DegustationModel
     private bool $edited = false;
 
     /**
+     * @return mixed|null
+     */
+    public function getId(): ?mixed
+    {
+        return $this->id;
+    }
+
+    /**
      * @param mixed|string $name
      */
     public function setName(string $name): void

@@ -32,8 +32,7 @@ class DegustationController
         $degustation = new DegustationModel();
         $degustation->setName($request->input('name'));
         $degustation->save();
-        var_dump($degustation);
-        echo 'done';
-        //return redirect()->route('addMember');
+        DegustationService::setCurrentDegustation($degustation);
+        return redirect()->route('addMember');
     }
 }
