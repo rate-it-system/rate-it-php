@@ -33,6 +33,11 @@ class DegustationController
         $degustation->setName($request->input('name'));
         $degustation->save();
         DegustationService::setCurrentDegustation($degustation);
-        return redirect()->route('addMember', ['msg'=>'Zapisano zmianę']);
+        return redirect()->route('addMember', ['msg' => 'Zapisano zmianę']);
+    }
+
+    public function addMember()
+    {
+        return view('app/degustation/addMember');
     }
 }
