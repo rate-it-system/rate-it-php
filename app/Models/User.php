@@ -14,9 +14,17 @@ class User
     private string $databaseID;
     private string $name;
     private string $email;
-    private Boolean $emailVerified;
+    private bool $emailVerified;
     private ?string $tokenToVeriEmail;
     private ?string $tokenToResetPassword;
+
+    /**
+     * @return mixed|string
+     */
+    public function getDatabaseID()
+    {
+        return $this->databaseID;
+    }
 
     /**
      * User constructor.
@@ -28,7 +36,7 @@ class User
      */
     public function __construct($value, int $findUserBy = 1)
     {
-        $databaseUser = DB::table('user')
+        $databaseUser = DB::table('users')
             ->select(['id', 'name', 'email', 'email_verified_at', 'remember_token'])
             ->where((($findUserBy === User::$FIND_USER_BY_MAIL) ? "email" : "id"), $value)
             ->first();

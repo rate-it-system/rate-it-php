@@ -18,6 +18,11 @@
 @section('content')
     <div>
             Lista
+        <ul>
+            @foreach ($list as $row)
+                <li>{{ $row->getName() }}</li>
+            @endforeach
+        </ul>
     </div>
 
 @endsection

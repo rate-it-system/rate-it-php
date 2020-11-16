@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Services\Auth;
+use App\Services\DegustationService;
 
 class MainController
 {
@@ -15,6 +16,7 @@ class MainController
 
     public function home()
     {
-        return view('App/list');
+
+        return view('App/list', ["list" => DegustationService::getMyDegustations()]);
     }
 }

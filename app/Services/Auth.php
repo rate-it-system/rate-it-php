@@ -18,11 +18,12 @@ class Auth
      * @return User
      * return currentUser if is logged or null if not
      * while first run user is taking from database
+     * @throws \Exception
      */
     public static function getCurrentUser(): User
     {
         if (self::isLogin() && self::$currentUser === null) {
-            self::$currentUser = new User($_SESSION['userid']);
+            self::$currentUser = new User($_SESSION['userid'], User::$FIND_USER_BY_ID);
         }
         return self::$currentUser;
     }
