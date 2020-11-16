@@ -4,8 +4,10 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\DegustationModel;
 use App\Services\Auth;
 use App\Services\DegustationService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class DegustationController
@@ -23,5 +25,15 @@ class DegustationController
     public function create()
     {
         return view('app/degustation/create');
+    }
+
+    public function doCreate(Request $request)
+    {
+        $degustation = new DegustationModel();
+        $degustation->setName($request->input('name'));
+        $degustation->save();
+        var_dump($degustation);
+        echo 'done';
+        //return redirect()->route('addMember');
     }
 }
