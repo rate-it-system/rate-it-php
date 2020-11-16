@@ -16,7 +16,7 @@ class DegustationModel
     /**
      * @return mixed|null
      */
-    public function getId(): ?mixed
+    public function getId()
     {
         return $this->id;
     }
