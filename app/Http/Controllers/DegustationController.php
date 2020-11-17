@@ -40,4 +40,15 @@ class DegustationController
     {
         return view('app/degustation/addMember');
     }
+
+    public function doAddMember(Request $request)
+    {
+        foreach ($request->input('mail') as $i =>$mail){
+            if($mail != null){
+                if ($request->input('isAdmin'.$i) === 'y') {
+
+                }
+            }
+        }
+    }
 }

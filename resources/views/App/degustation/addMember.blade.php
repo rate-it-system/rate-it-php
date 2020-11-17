@@ -9,8 +9,11 @@
 
 @section('script')
     <script>
+        let countUsers = 0;
+
         function addNextUser() {
-            $('#formUserList #list').append('<input placeholder="mail" type="email" name="mail[]"> Admin:<input type="checkbox" name="isAdmin[]"><br />');
+            $('#formUserList #list').append('<input placeholder="mail" type="email" name="mail[]" /> Admin:<input type="checkbox" name="isAdmin' + countUsers + '" value="y" /><br />');
+            countUsers++;
         }
 
         $(function () {
@@ -29,6 +32,8 @@
             @csrf
             <div id="list"></div>
             <a onclick="addNextUser()">+</a>
+            <br/>
+            <input type="submit" value="Dodaj"/>
         </form>
     </div>
 

@@ -8,10 +8,23 @@ use Illuminate\Support\Facades\DB;
 class DegustationModel
 {
     private $id;
-    private ?array $admins;
-    private ?array $viewers;
+    private ?array $admins = [];
+    private ?array $viewers = [];
     private string $name;
     private bool $edited = false;
+
+    /**
+     * @param array|null $admins
+     */
+    public function adduser(User $user, bool $isAdmin = false): void
+    {
+        if ($isAdmin) {
+            $this->admins[] = $user;
+        } else {
+            $this->viewers[] = $user;
+        }
+        $this->edited = true;
+    }
 
     /**
      * @return mixed|null
