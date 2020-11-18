@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DegustationController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
+Route::name('degustations.')->group(function() {
+    Route::get('/degustations', [DegustationController::class, 'index'])->name('index');
+    Route::post('/degustations', [DegustationController::class, 'store'])->name('store');
+    Route::get('/degustations/{degustation}', [DegustationController::class, 'show'])->name('show');
+    Route::put('/degustations/{degustation}', [DegustationController::class, 'update'])->name('update');
+    Route::delete('/degustations/{degustation}', [DegustationController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('products.')->group(function() {
+    Route::get('/degustations/{degustation}/products', [ProductController::class, 'index'])
+        ->name('index');
+});
