@@ -9,9 +9,16 @@ class Degustation extends Model
 {
     use HasFactory;
 
-    protected $hidden = [];
+    protected $guarded = [];
+    protected $hidden = [
+        'updated_at',
+        'deleted_at'
+    ];
 
-    public function products() {
-        return $this->hasMany(Product::class);
+    public function products()
+    {
+        return $this->hasMany(Product::class)
+            ->orderBy('created_at', 'DESC')
+            ->simplePaginate(15);
     }
 }

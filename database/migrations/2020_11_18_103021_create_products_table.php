@@ -24,6 +24,9 @@ class CreateProductsTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
         });
+        /*Schema::table('products', function($table) {
+            $table->foreign('degustations_id')->references('id')->on('degustations');
+        });*/
     }
 
     /**

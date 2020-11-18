@@ -14,12 +14,11 @@ class CreateDegustationsTable extends Migration
     public function up()
     {
         Schema::create('degustations', function (Blueprint $table) {
-            //$table->increments('degustation_id')->autoIncrement();
             $table->id();
-            $table->string('name');
-
-            /*$table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();*/
+            //TODO:Dodać w niedalekiej przyszłości
+            //$table->bigInteger('owner_id')->unsigned();
+            $table->string('name', 255);
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -9,5 +9,14 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $hidden = [];
+    protected $guarded = [];
+    protected $hidden = [
+        'updated_at',
+        'deleted_at'
+    ];
+
+    public function degustation()
+    {
+        return $this->hasOne(Degustation::class);
+    }
 }
