@@ -12,13 +12,13 @@ class DegustationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return new Response(
-            Degustation::orderBy('created_at', 'DESC')->simplePaginate(15)
-        );
+        $degustation = Degustation::orderBy('created_at', 'DESC')->simplePaginate(15);
+        //TODO:Dodać podgląd
+        return response()->json($degustation);
     }
 
     /**
@@ -28,14 +28,14 @@ class DegustationController extends Controller
      */
     public function create()
     {
-        //
+        //TODO:Dodać podgląd
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  DegustationStoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(DegustationStoreRequest $request)
     {
@@ -45,18 +45,20 @@ class DegustationController extends Controller
         ]);
         $degustation->link = route('degustations.show', ['degustation' => $degustation->id]);
 
-        return response($degustation, 201);
+        //TODO:Dodać podgląd
+        return response()->json($degustation);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Degustation  $degustation
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(Degustation $degustation)
     {
-        return response($degustation, 200);
+        //TODO:Dodać podgląd
+        return response()->json($degustation);
     }
 
     /**
@@ -67,7 +69,7 @@ class DegustationController extends Controller
      */
     public function edit(Degustation $degustation)
     {
-        //
+        //TODO:Dodać podgląd
     }
 
     /**
@@ -79,18 +81,18 @@ class DegustationController extends Controller
      */
     public function update(Request $request, Degustation $degustation)
     {
-        //
+        //TODO:Dodać podgląd
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Degustation  $degustation
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
      */
     public function destroy(Degustation $degustation)
     {
-        //auth()->guest()
         $degustation->delete();
+        return redirect()->with(['success' => 'Usunięto twoją degustację']);
     }
 }
