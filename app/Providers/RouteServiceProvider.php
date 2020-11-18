@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/dashboard';
 
     /**
      * The controller namespace for the application.
@@ -35,6 +35,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //TODO:Dodać w niedalekiej przyszłości
+        /*Route::bind('user', function ($value) {
+            return User::where('name', $value)->firstOrFail();
+        });*/
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
