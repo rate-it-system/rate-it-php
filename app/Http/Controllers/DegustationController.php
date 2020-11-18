@@ -77,7 +77,7 @@ class DegustationController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Degustation  $degustation
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Degustation $degustation)
     {
@@ -85,18 +85,19 @@ class DegustationController extends Controller
             'name' => $request->get('name'),
             'description' => $request->get('description')
         ]);
-        return redirect()->with(['success' => 'Zaktualizowano degustację.']);
+        return redirect()->route('degustations.show', ['degustation' => $degustation->id])
+            ->with(['success' => 'Zaktualizowano degustację.']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Degustation  $degustation
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Degustation $degustation)
     {
         $degustation->delete();
-        return redirect()->with(['success' => 'Usunięto twoją degustację']);
+        return redirect()->route('degustations.index')->with(['success' => 'Usunięto twoją degustację']);
     }
 }
