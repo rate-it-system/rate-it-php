@@ -17,8 +17,6 @@ class Degustation extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class)
-            ->orderBy('created_at', 'DESC')
-            ->simplePaginate(15);
+        return $this->hasMany(Product::class);
     }
 }
