@@ -81,7 +81,11 @@ class DegustationController extends Controller
      */
     public function update(Request $request, Degustation $degustation)
     {
-        //TODO:Dodać podgląd
+        $degustation->update([
+            'name' => $request->get('name'),
+            'description' => $request->get('description')
+        ]);
+        return redirect()->with(['success' => 'Zaktualizowano degustację.']);
     }
 
     /**
