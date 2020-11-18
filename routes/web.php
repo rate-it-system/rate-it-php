@@ -34,4 +34,12 @@ Route::name('degustations.')->group(function() {
 Route::name('products.')->group(function() {
     Route::get('/degustations/{degustation}/products', [ProductController::class, 'index'])
         ->name('index');
+    Route::post('/degustations/{degustation}/products', [ProductController::class, 'store'])
+        ->name('store');
+    Route::get('/degustations/{degustation}/products/{product}', [ProductController::class, 'show'])
+        ->name('show');
+    Route::put('/degustations/{degustation}/products/{product}', [ProductController::class, 'update'])
+        ->name('update');
+    Route::delete('/degustations/{degustation}/products/{product}', [ProductController::class, 'destroy'])
+        ->name('destroy');
 });
