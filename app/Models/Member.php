@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Degustation extends Model
+class Member extends Model
 {
     use HasFactory;
 
@@ -15,13 +15,8 @@ class Degustation extends Model
         'deleted_at'
     ];
 
-    public function products()
+    public function user()
     {
-        return $this->hasMany(Product::class);
-    }
-
-    public function members()
-    {
-        return $this->hasMany(Member::class);
+        return $this->hasOne(User::class);
     }
 }
