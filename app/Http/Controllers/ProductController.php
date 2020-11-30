@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Models\Degustation;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -17,12 +16,12 @@ class ProductController extends Controller
      */
     public function index(Degustation $degustation)
     {
-        $degustation = $degustation->products()
+        $products = $degustation->products()
             ->orderBy('created_at', 'DESC')
             ->simplePaginate(15);
 
         //TODO:Dodać podgląd
-        return response()->json($degustation);
+        return response()->json($products);
     }
 
     /**
@@ -81,8 +80,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  \App\Models\Product  $product
+     * @param ProductStoreRequest $request
+     * @param Degustation $degustation
+     * @param \App\Models\Product $product
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ProductStoreRequest $request, Degustation $degustation, Product $product)
@@ -97,8 +97,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param Degustation $degustation
+     * @param \App\Models\Product $product
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(Degustation $degustation, Product $product)
     {
