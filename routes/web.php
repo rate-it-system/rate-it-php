@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DegustationController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +43,14 @@ Route::name('products.')->group(function() {
     Route::put('/degustations/{degustation}/products/{product}', [ProductController::class, 'update'])
         ->name('update');
     Route::delete('/degustations/{degustation}/products/{product}', [ProductController::class, 'destroy'])
+        ->name('destroy');
+});
+
+Route::name('members.')->group(function() {
+    Route::get('/degustations/{degustation}/members', [MemberController::class, 'index'])
+        ->name('index');
+    Route::get('/degustations/{degustation}/members/{member}', [MemberController::class, 'show'])
+        ->name('show');
+    Route::delete('/degustations/{degustation}/members/{member}', [MemberController::class, 'destroy'])
         ->name('destroy');
 });
