@@ -19,6 +19,7 @@ class CreateDegustationsTable extends Migration
             //$table->bigInteger('owner_id')->unsigned();
             $table->string('name', 255);
             $table->text('description')->nullable();
+            $table->string('invitation_key', 20);
 
             //Options: ["created", "in progress", "completed"]
             $table->string('status', 20);
