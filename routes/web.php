@@ -56,3 +56,15 @@ Route::name('members.')->group(function() {
     Route::delete('/degustations/{degustation}/members/{member}', 'MemberController@destroy')
         ->name('destroy');
 });
+
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/login/facebook', 'Auth\LoginController@facebook')
+        ->name('facebook');
+    Route::get('/login/facebook/callback', 'Auth\LoginController@facebookCallback')
+        ->name('facebookCallback');
+
+    Route::get('/login/google', 'Auth\LoginController@google')
+        ->name('google');
+    Route::get('/login/google/callback', 'Auth\LoginController@googleCallback')
+        ->name('googleCallback');
+});

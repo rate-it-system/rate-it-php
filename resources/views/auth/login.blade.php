@@ -64,6 +64,12 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-row">
+                            <a href="{{ route('facebook') }}" class="btn btn-block btn-secondary">Log-in with facebook</a>
+                        </div>
+                        <div class="form-row">
+                            <a href="{{ route('google') }}" class="btn btn-block btn-secondary">Log-in with google</a>
+                        </div>
                     </form>
                 </div>
             </div>

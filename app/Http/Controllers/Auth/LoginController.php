@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -47,5 +52,39 @@ class LoginController extends Controller
         }
 
         return 'login';
+    }
+
+    public function facebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function facebookCallback()
+    {
+        return $this->loginWithSocialMedia(Socialite::driver('facebook')->user());
+    }
+
+    public function google()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleCallback()
+    {
+        return $this->loginWithSocialMedia(Socialite::driver('google')->user());
+    }
+
+    private function loginWithSocialMedia($user)
+    {
+        $user = User::firstOrCreate([
+            'email' => $user->getEmail()
+        ], [
+            'login' => $user->getNickname() ?? str_replace('-', '.',  Str::slug($user->getName())),
+            'password' => Hash::make(Str::random(50))
+        ]);
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
     }
 }
