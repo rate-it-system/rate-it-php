@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DegustationStoreRequest;
@@ -8,7 +8,7 @@ use App\Models\Degustation;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
-class DegustationApiController extends Controller
+class DegustationController extends Controller
 {
     /**
      * Display a listing of the resource.

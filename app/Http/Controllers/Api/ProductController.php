@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductStoreRequest;
 use App\Models\Degustation;
 use App\Models\Product;
 
-class ProductApiController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
