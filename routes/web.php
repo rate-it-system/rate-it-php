@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DegustationController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,37 +17,41 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//TODO: Dodać
-//Auth::routes();
+Auth::routes();
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::name('degustations.')->group(function() {
-    Route::get('/degustations', [DegustationController::class, 'index'])->name('index');
-    Route::post('/degustations', [DegustationController::class, 'store'])->name('store');
-    Route::get('/degustations/{degustation}', [DegustationController::class, 'show'])->name('show');
-    Route::put('/degustations/{degustation}', [DegustationController::class, 'update'])->name('update');
-    Route::delete('/degustations/{degustation}', [DegustationController::class, 'destroy'])->name('destroy');
+    Route::get('/degustations', 'DegustationController@index')
+        ->name('index');
+    Route::post('/degustations', 'DegustationController@store')
+        ->name('store');
+    Route::get('/degustations/{degustation}', 'DegustationController@show')
+        ->name('show');
+    Route::put('/degustations/{degustation}', 'DegustationController@update')
+        ->name('update');
+    Route::delete('/degustations/{degustation}', 'DegustationController@destroy')
+    ->name('destroy');
 });
 
 Route::name('products.')->group(function() {
-    Route::get('/degustations/{degustation}/products', [ProductController::class, 'index'])
+    Route::get('/degustations/{degustation}/products', 'ProductController@index')
         ->name('index');
-    Route::post('/degustations/{degustation}/products', [ProductController::class, 'store'])
+    Route::post('/degustations/{degustation}/products', 'ProductController@store')
         ->name('store');
-    Route::get('/degustations/{degustation}/products/{product}', [ProductController::class, 'show'])
+    Route::get('/degustations/{degustation}/products/{product}', 'ProductController@show')
         ->name('show');
-    Route::put('/degustations/{degustation}/products/{product}', [ProductController::class, 'update'])
+    Route::put('/degustations/{degustation}/products/{product}', 'ProductController@update')
         ->name('update');
-    Route::delete('/degustations/{degustation}/products/{product}', [ProductController::class, 'destroy'])
+    Route::delete('/degustations/{degustation}/products/{product}', 'ProductController@destroy')
         ->name('destroy');
 });
 
 Route::name('members.')->group(function() {
-    Route::get('/degustations/{degustation}/members', [MemberController::class, 'index'])
+    Route::get('/degustations/{degustation}/members', 'MemberController@index')
         ->name('index');
-    Route::get('/degustations/{degustation}/members/{member}', [MemberController::class, 'show'])
+    Route::get('/degustations/{degustation}/members/{member}', 'MemberController@show')
         ->name('show');
-    Route::delete('/degustations/{degustation}/members/{member}', [MemberController::class, 'destroy'])
+    Route::delete('/degustations/{degustation}/members/{member}', 'MemberController@destroy')
         ->name('destroy');
 });

@@ -14,30 +14,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\api\DegustationApiController;
-use App\Http\Controllers\api\ProductApiController;
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 Route::name('api.degustations.')->group(function () {
-    Route::get('degustations', [DegustationApiController::class, 'index'])->name('index');
-    Route::post('degustations', [DegustationApiController::class, 'store'])->name('store');
-    Route::get('degustations/{degustation}', [DegustationApiController::class, 'show'])->name('show');
-    Route::put('degustations/{degustation}', [DegustationApiController::class, 'update'])->name('update');
-    Route::delete('degustations/{degustation}', [DegustationApiController::class, 'destroy'])->name('destroy');
+    Route::get('degustations', 'Api\DegustationController@index')
+        ->name('index');
+    Route::post('degustations', 'Api\DegustationController@store')
+        ->name('store');
+    Route::get('degustations/{degustation}', 'Api\DegustationController@show')
+        ->name('show');
+    Route::put('degustations/{degustation}', 'Api\DegustationController@update')
+        ->name('update');
+    Route::delete('degustations/{degustation}', 'Api\DegustationController@destroy')
+        ->name('destroy');
 });
 
 Route::name('api.products.')->group(function() {
-    Route::get('degustations/{degustation}/products', [ProductApiController::class, 'index'])
+    Route::get('degustations/{degustation}/products', 'Api\ProductController@index')
         ->name('index');
-    Route::post('degustations/{degustation}/products', [ProductApiController::class, 'store'])
+    Route::post('degustations/{degustation}/products', 'Api\ProductController@store')
         ->name('store');
-    Route::get('degustations/{degustation}/products/{product}', [ProductApiController::class, 'show'])
+    Route::get('degustations/{degustation}/products/{product}', 'Api\ProductController@show')
         ->name('show');
-    Route::put('degustations/{degustation}/products/{product}', [ProductApiController::class, 'update'])
+    Route::put('degustations/{degustation}/products/{product}', 'Api\ProductController@update')
         ->name('update');
-    Route::delete('degustations/{degustation}/products/{product}', [ProductApiController::class, 'destroy'])
+    Route::delete('degustations/{degustation}/products/{product}', 'Api\ProductController@destroy')
         ->name('destroy');
 });
