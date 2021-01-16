@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DegustationStoreRequest;
 use App\Models\Degustation;
+use App\Models\Member;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -20,7 +21,13 @@ class DegustationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $memberDegustations = $request->user()->memberships()
+            ->orderBy('updated_at', 'DESC')->get()
+            ->map(function(Member $member){
+                return $member->degustation()->first();
+            });
         $degustations = $request->user()->degustations()->orderBy('updated_at', 'DESC')->get()
+            ->concat($memberDegustations)
             ->map(function(Degustation $degustation){
                 $degustation->addOwnerToObject();
                 return $degustation;
@@ -63,10 +70,10 @@ class DegustationController extends Controller
     public function show(Request $request, Degustation $degustation): JsonResponse
     {
         $user = $request->user();
-        //TODO: Dodać opcję wyświetlania dla degustatorów
-        //$member = $user->membership()->where('degustation_id', $degustation->id)->first();
 
-        if($user->id !== (int)$degustation->owner_id) {
+        $member = $user->memberships()->select('id')->where('degustation_id', $degustation->id)->first();
+
+        if($user->id !== (int)$degustation->owner_id && !$member) {
             return response()->json([
                 'message' => 'You do not have access to this resource.'
             ], 403);

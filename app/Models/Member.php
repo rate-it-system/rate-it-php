@@ -19,4 +19,9 @@ class Member extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function degustation()
+    {
+        return $this->hasOne(Degustation::class, 'id', 'degustation_id');
+    }
 }
