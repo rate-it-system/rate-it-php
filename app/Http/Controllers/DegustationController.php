@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DegustationStoreRequest;
 use App\Models\Degustation;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class DegustationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Application|Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        $degustation = Degustation::orderBy('created_at', 'DESC')->simplePaginate(15);
-        //TODO:Dodać podgląd
-        return response()->json($degustation);
+        $degustation = Degustation::orderBy('created_at', 'DESC')->simplePaginate(1);
+        return view('degustation/list', ['degustations' => $degustation]);
     }
 
     /**
