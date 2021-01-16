@@ -109,12 +109,23 @@ class DegustationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param Degustation $degustation
-     * @return void
+     * @return JsonResponse
      * @throws Exception
      */
-    public function destroy(Degustation $degustation)
+    public function destroy(Request $request, Degustation $degustation)
     {
-        $degustation->delete();
+        $user = $request->user();
+        if($user->id === (int)$degustation->owner_id) {
+            $degustation->delete();
+            return response()->json([
+                'status' => 'ok'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'You do not have access to this resource.'
+            ], 403);
+        }
     }
 }
