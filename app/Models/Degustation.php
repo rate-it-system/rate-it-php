@@ -15,6 +15,17 @@ class Degustation extends Model
         'deleted_at'
     ];
 
+    public function owner()
+    {
+        return $this->hasOne(User::class, 'id', 'owner_id')
+            ->select('id', 'login', 'created_at');
+    }
+
+    public function addOwnerToObject(): void
+    {
+        $this->owner = $this->owner()->first();
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);

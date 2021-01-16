@@ -20,8 +20,14 @@ class DegustationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $degustations = $request->user()->degustations()->orderBy('updated_at', 'DESC')->get()
+            ->map(function(Degustation $degustation){
+                $degustation->addOwnerToObject();
+                return $degustation;
+            });
+
         return response()->json(
-            $request->user()->degustations()->orderBy('updated_at', 'DESC')->simplePaginate(15)
+            $degustations
         );
     }
 
@@ -60,11 +66,13 @@ class DegustationController extends Controller
         //TODO: Dodać opcję wyświetlania dla degustatorów
         //$member = $user->membership()->where('degustation_id', $degustation->id)->first();
 
-        if($user->id !== $degustation->owner_id) {
+        if($user->id !== (int)$degustation->owner_id) {
             return response()->json([
                 'message' => 'You do not have access to this resource.'
             ], 403);
         }
+
+        $degustation->addOwnerToObject();
 
         return response()->json($degustation);
     }
@@ -78,7 +86,7 @@ class DegustationController extends Controller
      */
     public function update(DegustationStoreRequest $request, Degustation $degustation): JsonResponse
     {
-        if($request->user()->id !== $degustation->owner_id)
+        if($request->user()->id !== (int)$degustation->owner_id)
             return response()->json([
                 'message' => 'You do not have access to this resource.'
             ], 403);
