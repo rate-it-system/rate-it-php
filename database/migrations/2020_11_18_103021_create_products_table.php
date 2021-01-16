@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('degustation_id')->nullable()->index();
+            $table->bigInteger('degustation_id')->index();
             $table->string('name', 255);
             $table->timestamps();
             $table->softDeletes();
