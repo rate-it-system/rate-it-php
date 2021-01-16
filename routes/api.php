@@ -55,6 +55,11 @@ Route::middleware('auth:api')->name('api.')->group(function(){
         Route::delete('degustations/{degustation}/members/{member}', 'Api\MemberController@destroy')
             ->name('destroy');
     });
+
+    Route::name('invitations.')->group(function(){
+        Route::get('invitations/{invitationKey}', 'Api\InvitationController@acceptance')
+            ->name('acceptance');
+    });
 });
 
 Route::post('/login', [LoginController::class, 'loginNormal'])
