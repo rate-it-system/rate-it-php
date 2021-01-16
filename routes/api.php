@@ -46,6 +46,15 @@ Route::middleware('auth:api')->name('api.')->group(function(){
         Route::delete('degustations/{degustation}/products/{product}', 'Api\ProductController@destroy')
             ->name('destroy');
     });
+
+    Route::name('members.')->group(function() {
+        Route::get('degustations/{degustation}/members', 'Api\MemberController@index')
+            ->name('index');
+        Route::get('degustations/{degustation}/members/{member}', 'Api\MemberController@show')
+            ->name('show');
+        Route::delete('degustations/{degustation}/members/{member}', 'Api\MemberController@destroy')
+            ->name('destroy');
+    });
 });
 
 Route::post('/login', [LoginController::class, 'loginNormal'])
