@@ -55,7 +55,6 @@ class DegustationController extends Controller
             'description' => $request->get('description'),
             'invitation_key' => $invitation_key
         ]);
-        $degustation->link = route('api.degustations.show', ['degustation' => $degustation->id]);
 
         return response()->json($degustation);
     }
