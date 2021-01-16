@@ -6,18 +6,30 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductStoreRequest;
 use App\Models\Degustation;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @param Degustation $degustation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Degustation $degustation)
+    public function index(Request $request, Degustation $degustation)
     {
-        return response()->json($degustation->products());
+        $user = $request->user();
+        $member = $user->memberships()->select('id')->where('degustation_id', $degustation->id)->first();
+        if($user->id === (int)$degustation->owner_id || $member) {
+            return response()->json(
+                $degustation->products()->select('id', 'name')->get()
+            );
+        }
+
+        return response()->json([
+            'message' => 'You do not have access to this resource.'
+        ], 403);
     }
 
     /**
@@ -27,12 +39,20 @@ class ProductController extends Controller
      * @param Degustation $degustation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(ProductStoreRequest $request, Degustation $degustation)
+    public function store(ProductStoreRequest $request, Degustation $degustation): \Illuminate\Http\JsonResponse
     {
+        $user = $request->user();
+
+        if($user->id !== (int)$degustation->owner_id){
+            return response()->json([
+                'message' => 'You do not have access to this resource.'
+            ], 403);
+        }
+
         $product = $degustation->products()->create([
             'name' => $request->get('name')
         ]);
-        $product->link = route('api.degustations.show',
+        $product->link = route('api.products.show',
             ['degustation' => $degustation->id, 'product' => $product->id]);
         return response()->json($product);
     }
@@ -40,14 +60,24 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Degustation $degustation
      * @param Product $product
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Degustation $degustation, Product $product)
+    public function show(Request $request, Degustation $degustation, Product $product): \Illuminate\Http\JsonResponse
     {
-        $product = $degustation->products()->findOrFail($product->id);
-        return response()->json($product);
+        $user = $request->user();
+        $member = $user->memberships()->select('id')->where('degustation_id', $degustation->id)->first();
+
+        if(($user->id === (int)$degustation->owner_id || $member) && $product &&
+            $degustation->id === (int)$product->degustation_id) {
+            return response()->json($product);
+        }
+
+        return response()->json([
+            'message' => 'You do not have access to this resource.'
+        ], 403);
     }
 
     /**
@@ -56,13 +86,25 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param Degustation $degustation
      * @param Product $product
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ProductStoreRequest $request, Degustation $degustation, Product $product)
+    public function update(ProductStoreRequest $request, Degustation $degustation, Product $product): \Illuminate\Http\JsonResponse
     {
-        $degustation->products()->findOrFail($product->id)->update([
-            'name' => $request->get('name')
+        $user = $request->user();
+
+        if($user->id !== (int)$degustation->owner_id ||
+            !$product ||
+            $degustation->id !== (int)$product->degustation_id){
+            return response()->json([
+                'message' => 'You do not have access to this resource.'
+            ], 403);
+        }
+
+        $product->update([
+            'name' => $request->input('name')
         ]);
+
+        return response()->json($product);
     }
 
     /**
@@ -70,10 +112,20 @@ class ProductController extends Controller
      *
      * @param Degustation $degustation
      * @param Product $product
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Degustation $degustation, Product $product)
+    public function destroy(Request $request, Degustation $degustation, Product $product): \Illuminate\Http\JsonResponse
     {
-        $degustation->products()->findOrFail($product->id)->delete();
+        $user = $request->user();
+        if($user->id !== (int)$degustation->owner_id) {
+            $degustation->products()->findOrFail($product->id)->delete();
+            return response()->json([
+                'status' => 'ok'
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'You do not have access to this resource.'
+            ], 403);
+        }
     }
 }

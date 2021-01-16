@@ -28,7 +28,7 @@ class Degustation extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'degustation_id', 'id');
     }
 
     public function members()
