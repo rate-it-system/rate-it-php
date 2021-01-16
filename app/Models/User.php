@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Member::class);
     }
+
+    public function degustations()
+    {
+        return $this->hasMany(Degustation::class, 'owner_id', 'id');
+    }
 }

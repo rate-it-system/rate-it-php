@@ -15,14 +15,13 @@ class CreateDegustationsTable extends Migration
     {
         Schema::create('degustations', function (Blueprint $table) {
             $table->id();
-            //TODO:Dodać w niedalekiej przyszłości
-            //$table->bigInteger('owner_id')->unsigned();
+            $table->bigInteger('owner_id')->index();
             $table->string('name', 255);
             $table->text('description')->nullable();
-            $table->string('invitation_key', 20);
+            $table->string('invitation_key', 20)->index();
 
             //Options: ["created", "in progress", "completed"]
-            $table->string('status', 20);
+            $table->string('status', 20)->nullable()->default('created');
 
             $table->timestamps();
             $table->softDeletes();

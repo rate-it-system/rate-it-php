@@ -6,19 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DegustationStoreRequest;
 use App\Models\Degustation;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 class DegustationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request): JsonResponse
     {
         return response()->json(
-            Degustation::orderBy('created_at', 'DESC')->simplePaginate(15)
+            $request->user()->degustations()->orderBy('updated_at', 'DESC')->simplePaginate(15)
         );
     }
 
@@ -28,11 +31,16 @@ class DegustationController extends Controller
      * @param DegustationStoreRequest $request
      * @return JsonResponse
      */
-    public function store(DegustationStoreRequest $request)
+    public function store(DegustationStoreRequest $request): JsonResponse
     {
+        $user = $request->user();
+        $invitation_key = Str::random(80);
+
         $degustation = Degustation::create([
+            'owner_id' => $user->id,
             'name' => $request->get('name'),
-            'description' => $request->get('description')
+            'description' => $request->get('description'),
+            'invitation_key' => $invitation_key
         ]);
         $degustation->link = route('api.degustations.show', ['degustation' => $degustation->id]);
 
@@ -42,11 +50,22 @@ class DegustationController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param Degustation $degustation
      * @return JsonResponse
      */
-    public function show(Degustation $degustation)
+    public function show(Request $request, Degustation $degustation): JsonResponse
     {
+        $user = $request->user();
+        //TODO: Dodać opcję wyświetlania dla degustatorów
+        //$member = $user->membership()->where('degustation_id', $degustation->id)->first();
+
+        if($user->id !== $degustation->owner_id) {
+            return response()->json([
+                'message' => 'You do not have access to this resource.'
+            ], 403);
+        }
+
         return response()->json($degustation);
     }
 
@@ -55,14 +74,21 @@ class DegustationController extends Controller
      *
      * @param DegustationStoreRequest $request
      * @param Degustation $degustation
-     * @return void
+     * @return JsonResponse
      */
-    public function update(DegustationStoreRequest $request, Degustation $degustation)
+    public function update(DegustationStoreRequest $request, Degustation $degustation): JsonResponse
     {
+        if($request->user()->id !== $degustation->owner_id)
+            return response()->json([
+                'message' => 'You do not have access to this resource.'
+            ], 403);
+
         $degustation->update([
             'name' => $request->get('name'),
             'description' => $request->get('description')
         ]);
+
+        return response()->json($degustation);
     }
 
     /**
