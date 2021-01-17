@@ -50,9 +50,13 @@ class SessionController extends Controller
     public function currentProduct(): \Illuminate\Http\JsonResponse
     {
         $degustation = Auth::user()->currentDegustation;
-        $product = $degustation->currentProduct;
-        $product->features = $degustation->features;
-        return response()->json($product);
+        try {
+            $product = $degustation->currentProduct;
+            $product->features = $degustation->features;
+            return response()->json($product);
+        } catch (\Exception $ignore) {
+            return response()->json(null);
+        }
     }
 
     /**
@@ -92,7 +96,7 @@ class SessionController extends Controller
         $current_product = $degustation->currentProduct;
         $nextIsNewProduct = false;
         foreach ($degustation->products as $product) {
-            if($nextIsNewProduct){
+            if ($nextIsNewProduct) {
                 $degustation->product_id = $product->id;
                 break;
             }
@@ -102,7 +106,7 @@ class SessionController extends Controller
             }
         }
 
-        if($degustation->product_id === null){
+        if ($degustation->product_id === null) {
             $degustation->status = "completed";
         }
 
