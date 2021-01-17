@@ -60,6 +60,19 @@ Route::middleware('auth:api')->name('api.')->group(function(){
         Route::get('invitations/{invitationKey}', 'Api\InvitationController@acceptance')
             ->name('acceptance');
     });
+
+    Route::name('features.')->group(function(){
+        Route::get('degustations/{degustation}/features', 'Api\FeatureController@index')
+            ->name('index');
+        Route::post('degustations/{degustation}/features', 'Api\FeatureController@store')
+            ->name('store');
+        Route::get('degustations/{degustation}/features/{feature}', 'Api\FeatureController@show')
+            ->name('show');
+        Route::put('degustations/{degustation}/features/{feature}', 'Api\FeatureController@update')
+            ->name('update');
+        Route::delete('degustations/{degustation}/features/{feature}', 'Api\FeatureController@destroy')
+            ->name('destroy');
+    });
 });
 
 Route::post('/login', [LoginController::class, 'loginNormal'])
