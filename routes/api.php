@@ -16,9 +16,20 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 |
 */
 
-Route::middleware('auth:api')->name('api.')->group(function(){
+Route::middleware('auth:api')->name('api.')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
+    });
+
+    Route::get('degustations/{degustation}/redyToStart', 'Api\SessionController@userReady')
+        ->name('redyToStart');
+    Route::name('session.')->group(function () {
+        Route::get('session/isStarted', 'Api\SessionController@isStarted')
+            ->name('isStarted');
+        Route::get('session/currentProduct', 'Api\SessionController@currentProduct')
+            ->name('currentProduct');
+        Route::get('session/currentProduct/{degustationfeature}/rate/{rate}', 'Api\SessionController@rateProduct')
+            ->name('rateProduct');
     });
 
     Route::name('degustations.')->group(function () {
@@ -34,7 +45,7 @@ Route::middleware('auth:api')->name('api.')->group(function(){
             ->name('destroy');
     });
 
-    Route::name('products.')->group(function() {
+    Route::name('products.')->group(function () {
         Route::get('degustations/{degustation}/products', 'Api\ProductController@index')
             ->name('index');
         Route::post('degustations/{degustation}/products', 'Api\ProductController@store')
@@ -47,7 +58,7 @@ Route::middleware('auth:api')->name('api.')->group(function(){
             ->name('destroy');
     });
 
-    Route::name('members.')->group(function() {
+    Route::name('members.')->group(function () {
         Route::get('degustations/{degustation}/members', 'Api\MemberController@index')
             ->name('index');
         Route::get('degustations/{degustation}/members/{member}', 'Api\MemberController@show')
@@ -56,12 +67,12 @@ Route::middleware('auth:api')->name('api.')->group(function(){
             ->name('destroy');
     });
 
-    Route::name('invitations.')->group(function(){
+    Route::name('invitations.')->group(function () {
         Route::get('invitations/{invitationKey}', 'Api\InvitationController@acceptance')
             ->name('acceptance');
     });
 
-    Route::name('features.')->group(function(){
+    Route::name('features.')->group(function () {
         Route::get('degustations/{degustation}/features', 'Api\FeatureController@index')
             ->name('index');
         Route::post('degustations/{degustation}/features', 'Api\FeatureController@store')

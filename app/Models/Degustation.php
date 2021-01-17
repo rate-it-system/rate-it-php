@@ -40,4 +40,9 @@ class Degustation extends Model
     {
         return $this->hasMany(Degustationfeature::class);
     }
+
+    public function currentProduct()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }

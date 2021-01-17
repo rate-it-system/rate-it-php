@@ -19,4 +19,9 @@ class Product extends Model
     {
         return $this->hasOne(Degustation::class);
     }
+
+    public function produkteValuations()
+    {
+        return $this->hasMany(Produktevaluations::class, 'product_id', 'id');
+    }
 }
