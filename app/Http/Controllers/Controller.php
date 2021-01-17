@@ -9,5 +9,12 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
+    /**
+     * @OA\Info(
+     *      version="1.0.0",
+     *      title="Rate it",
+     *      description="Software to testing tase of alcohol",
+     * )
+     */
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }
