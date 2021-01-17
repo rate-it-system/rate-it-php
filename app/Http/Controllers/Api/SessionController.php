@@ -26,7 +26,7 @@ class SessionController extends Controller
      * @param Degustation $degustation
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userReady(Degustation $degustation)
+    public function userReady(Degustation $degustation): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
         $user->degustation_id = $degustation->id;
@@ -38,7 +38,7 @@ class SessionController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function isStarted()
+    public function isStarted(): \Illuminate\Http\JsonResponse
     {
         $degustation = Auth::user()->currentDegustation;
         return response()->json(['started' => ($degustation->status === 'in progress')]);
@@ -47,7 +47,7 @@ class SessionController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function currentProduct()
+    public function currentProduct(): \Illuminate\Http\JsonResponse
     {
         $degustation = Auth::user()->currentDegustation;
         $product = $degustation->currentProduct;
@@ -60,7 +60,7 @@ class SessionController extends Controller
      * @param $rate
      * @return \Illuminate\Http\JsonResponse
      */
-    public function rateProduct(Degustationfeature $degustationfeature, $rate)
+    public function rateProduct(Degustationfeature $degustationfeature, $rate): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user();
         $product = $user->currentDegustation->currentProduct;
@@ -76,7 +76,7 @@ class SessionController extends Controller
     /**
      * @return array
      */
-    public function getProgressProduct()
+    public function getProgressProduct(): array
     {
         $degustation = Auth::user()->currentDegustation;
         $product = $degustation->currentProduct;
@@ -86,7 +86,7 @@ class SessionController extends Controller
         ];
     }
 
-    public function nextProduct()
+    public function nextProduct(): \Illuminate\Http\JsonResponse
     {
         $degustation = Auth::user()->currentDegustation;
         $current_product = $degustation->currentProduct;
@@ -110,4 +110,11 @@ class SessionController extends Controller
         return response()->json(Product::find($degustation->product_id));
     }
 
+    public function start()
+    {
+        $degustation = Auth::user()->currentDegustation;
+        $degustation->product_id = $degustation->products->first()->id;
+        $degustation->status = 'in progress';
+        $degustation->save();
+    }
 }
