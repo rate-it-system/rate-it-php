@@ -30,7 +30,8 @@ class SessionController extends Controller
         $user = Auth::user();
         $user->degustation_id = $degustation->id;
         $user->save();
-        return response()->json($user->currentDegustation);
+        $degustation->features = $degustation->features;
+        return response()->json($degustation);
     }
 
     /**
@@ -47,7 +48,10 @@ class SessionController extends Controller
      */
     public function currentProduct()
     {
-        return response()->json(Auth::user()->currentDegustation->currentProduct);
+        $degustation = Auth::user()->currentDegustation;
+        $product = $degustation->currentProduct;
+        $product->features = $degustation->features;
+        return response()->json($product);
     }
 
     /**
@@ -71,7 +75,7 @@ class SessionController extends Controller
     /**
      * @return array
      */
-    private function getProgressProduct()
+    public function getProgressProduct()
     {
         $degustation = Auth::user()->currentDegustation;
         $product = $degustation->currentProduct;
