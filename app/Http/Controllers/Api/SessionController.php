@@ -15,8 +15,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
+/**
+ * Class SessionController
+ * @package App\Http\Controllers\Api
+ */
 class SessionController extends Controller
 {
+    /**
+     * @param Degustation $degustation
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function userReady(Degustation $degustation)
     {
         $user = Auth::user();
@@ -25,17 +33,28 @@ class SessionController extends Controller
         return response()->json($user->currentDegustation);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function isStarted()
     {
         $degustation = Auth::user()->currentDegustation;
         return response()->json(['started' => ($degustation->status === 'in progress')]);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function currentProduct()
     {
         return response()->json(Auth::user()->currentDegustation->currentProduct);
     }
 
+    /**
+     * @param Degustationfeature $degustationfeature
+     * @param $rate
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function rateProduct(Degustationfeature $degustationfeature, $rate)
     {
         $user = Auth::user();
@@ -49,6 +68,9 @@ class SessionController extends Controller
         return response()->json($this->getProgressProduct());
     }
 
+    /**
+     * @return array
+     */
     private function getProgressProduct()
     {
         $degustation = Auth::user()->currentDegustation;
