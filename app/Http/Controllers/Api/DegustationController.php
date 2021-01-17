@@ -92,10 +92,17 @@ class DegustationController extends Controller
      */
     public function update(DegustationStoreRequest $request, Degustation $degustation): JsonResponse
     {
-        if($request->user()->id !== (int)$degustation->owner_id)
+        if($request->user()->id !== (int)$degustation->owner_id) {
             return response()->json([
                 'message' => 'You do not have access to this resource.'
             ], 403);
+        }
+
+        if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
+            ], 403);
+        }
 
         $degustation->update([
             'name' => $request->get('name'),
@@ -121,6 +128,10 @@ class DegustationController extends Controller
             return response()->json([
                 'status' => 'ok'
             ]);
+        } else if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
+            ], 403);
         } else {
             return response()->json([
                 'message' => 'You do not have access to this resource.'

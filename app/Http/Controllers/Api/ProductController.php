@@ -49,6 +49,12 @@ class ProductController extends Controller
             ], 403);
         }
 
+        if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
+            ], 403);
+        }
+
         $product = $degustation->products()->create([
             'name' => $request->get('name')
         ]);
@@ -100,6 +106,12 @@ class ProductController extends Controller
             ], 403);
         }
 
+        if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
+            ], 403);
+        }
+
         $product->update([
             'name' => $request->input('name')
         ]);
@@ -122,6 +134,10 @@ class ProductController extends Controller
             return response()->json([
                 'status' => 'ok'
             ]);
+        } else if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
+            ], 403);
         } else {
             return response()->json([
                 'message' => 'You do not have access to this resource.'

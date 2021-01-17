@@ -38,6 +38,12 @@ class FeatureController extends Controller
             ], 403);
         }
 
+        if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
+            ], 403);
+        }
+
         $feature = $degustation->features()->create([
             'name' => $request->input('name')
         ]);
@@ -76,6 +82,12 @@ class FeatureController extends Controller
             ], 403);
         }
 
+        if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
+            ], 403);
+        }
+
         $feature->update([
             'name' => $request->input('name')
         ]);
@@ -92,6 +104,12 @@ class FeatureController extends Controller
             $degustation->id !== (int)$feature->degustation_id) {
             return response()->json([
                 'message' => 'You do not have access to this resource.'
+            ], 403);
+        }
+
+        if($degustation->status !== 'created'){
+            return response()->json([
+                'message' => 'Cannot be edited while degustation is in progress.'
             ], 403);
         }
 
