@@ -32,6 +32,8 @@ Route::middleware('auth:api')->name('api.')->group(function () {
             ->name('rateProduct');
         Route::get('session/progressProduct', 'Api\SessionController@getProgressProduct')
             ->name('progressProduct');
+        Route::get('session/nextProduct', 'Api\SessionController@nextProduct')
+            ->name('nextProduct');
     });
 
     Route::name('degustations.')->group(function () {

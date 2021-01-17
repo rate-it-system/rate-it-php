@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DegustationStoreRequest;
 use App\Models\Degustation;
 use App\Models\Degustationfeature;
+use App\Models\Product;
 use App\Models\Produktevaluations;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -83,6 +84,30 @@ class SessionController extends Controller
             'total' => $degustation->members->count(),
             'progress' => Produktevaluations::where('product_id', $product->id)->count()
         ];
+    }
+
+    public function nextProduct()
+    {
+        $degustation = Auth::user()->currentDegustation;
+        $current_product = $degustation->currentProduct;
+        $nextIsNewProduct = false;
+        foreach ($degustation->products as $product) {
+            if($nextIsNewProduct){
+                $degustation->product_id = $product->id;
+                break;
+            }
+            $degustation->product_id = null;
+            if ($product->id === $current_product->id) {
+                $nextIsNewProduct = true;
+            }
+        }
+
+        if($degustation->product_id === null){
+            $degustation->status = "completed";
+        }
+
+        $degustation->save();
+        return response()->json(Product::find($degustation->product_id));
     }
 
 }
