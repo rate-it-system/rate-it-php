@@ -18,6 +18,10 @@ class DegustationController extends Controller
      *
      * @param Request $request
      * @return JsonResponse
+     * @OA\Get(
+     *     path="/degustations",
+     *     @OA\Response(response="200", description="Display a listing of projects.")
+     * )
      */
     public function index(Request $request): JsonResponse
     {

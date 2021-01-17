@@ -1,0 +1,24 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Rate it",
+        "description": "Software to testing tase of alcohol",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/degustations": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "operationId": "App\\Http\\Controllers\\Api\\DegustationController::index",
+                "responses": {
+                    "200": {
+                        "description": "Display a listing of projects."
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}
