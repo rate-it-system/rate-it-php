@@ -51,7 +51,7 @@ class DegustationController extends Controller
     public function store(DegustationStoreRequest $request): JsonResponse
     {
         $user = $request->user();
-        $invitation_key = Str::random(80);
+        $invitation_key = Str::random(20);
 
         $degustation = Degustation::create([
             'owner_id' => $user->id,
