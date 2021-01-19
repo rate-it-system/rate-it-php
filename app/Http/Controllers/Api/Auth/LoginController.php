@@ -48,8 +48,11 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'message' => 'Incorrect login details. Try again.'
-        ]);
+            'message' => 'Incorrect login details. Try again.',
+            'errors' => (object)[
+                'password' => 'Inncorrect password.'
+            ]
+        ], 422);
     }
 
     private function username(): string
