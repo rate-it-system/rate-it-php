@@ -17,9 +17,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 */
 
 Route::middleware('auth:api')->name('api.')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', 'Api\UserController@user');
 
     Route::get('degustations/{degustation}/redyToStart', 'Api\SessionController@userReady')
         ->name('redyToStart');
