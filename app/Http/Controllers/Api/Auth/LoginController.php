@@ -15,6 +15,55 @@ use Laravel\Socialite\Facades\Socialite;
 class LoginController extends Controller
 {
     /**
+     * @OA\Post(
+     * path="/api/login",
+     * summary="Logowanie",
+     * security={},
+     * description="Logowanie za pomocą loginu i hasła.",
+     * operationId="authLogin",
+     * tags={"autentykacja"},
+     *
+     * @OA\RequestBody(
+     *    required=true,
+     *    description="Dane logowania użytkownika",
+     *    @OA\JsonContent(
+     *       required={"login","password"},
+     *       @OA\Property(property="login", type="string", example="nickname|email@example.com"),
+     *       @OA\Property(property="password", type="string", format="password", example="PassWord12345")
+     *    ),
+     * ),
+     * @OA\Response(
+     *    response=200,
+     *    description="Zalogowano poprawnie.",
+     *    @OA\JsonContent(
+     *       @OA\Property(
+     *          property="token",
+     *          type="string",
+     *          example="7qQ0h6rLQk75pcrcugCRjqjQEHpjGzG3Shj7InDkq8HsG4xiD3Z21vuv6plDdKc6qcF54UJDWjb6vBIG"
+     *       )
+     *    )
+     * ),
+     * @OA\Response(
+     *    response=422,
+     *    description="Niepoprawne dane logowania.",
+     *    @OA\JsonContent(
+     *       @OA\Property(
+     *          property="message",
+     *          type="string"
+     *       ),
+     *       @OA\Property(
+     *          property="errors",
+     *          type="array",
+     *          @OA\Items(
+     *              @OA\Property(property="login", type="string"),
+     *              @OA\Property(property="password", type="string")
+     *          )
+     *       )
+     *    )
+     * )
+     *
+     * )
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -96,6 +145,11 @@ class LoginController extends Controller
             abort(404);
     }
 
+    private function githubRedirect()
+    {
+        return Socialite::driver('github')->stateless()->redirect()->getTargetUrl();
+    }
+
     private function facebookRedirect()
     {
         return Socialite::driver('facebook')->stateless()->redirect()->getTargetUrl();
@@ -104,6 +158,11 @@ class LoginController extends Controller
     private function googleRedirect()
     {
         return Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
+    }
+
+    private function githubCallback()
+    {
+        return Socialite::driver('github')->stateless()->user();
     }
 
     private function facebookCallback()
