@@ -138,7 +138,7 @@ class LoginController extends Controller
                 return $this->loginOrRegisterSocialMedia($callback);
             } catch (ClientException $msg) {
                 return response()->json([
-                    'message' => 'The authorization token has expired or does not exist.'
+                    'message' => 'The authorization token has expired or does not exist.' . $msg->getMessage()
                 ], 400);
             }
         } else

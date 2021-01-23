@@ -14,13 +14,34 @@ use Illuminate\Support\Str;
 class DegustationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Wyświetla listę wszystkich degustacji
      *
      * @param Request $request
      * @return JsonResponse
+     *
      * @OA\Get(
-     *     path="/degustations",
-     *     @OA\Response(response="200", description="Display a listing of projects.")
+     *     path="/api/degustations",
+     *     summary="Lista degustacji",
+     *     security={ {"bearer": {} }},
+     *     tags={"degustacje"},
+     *     @OA\Parameter(
+     *         name="Authorization",
+     *         in="header",
+     *         required=true,
+     *         description="Bearer {access-token}",
+     *         @OA\Schema(
+     *              securityDefinition="Bearer",
+     *              type="apiKey"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="Wyświetla listę degustacji przypisanych do konta właściciela lub członków.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", example="1")
+     *          )
+     *     )
      * )
      */
     public function index(Request $request): JsonResponse
@@ -47,6 +68,16 @@ class DegustationController extends Controller
      *
      * @param DegustationStoreRequest $request
      * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/degustations",
+     *     security={ {"bearer": {} }},
+     *     summary="Tworzenie nowej degustacji",
+     *     tags={"degustacje"},
+     *     @OA\Response(
+     *      response="200",
+     *      description="Tworzy nową degustację."
+     *     )
+     * )
      */
     public function store(DegustationStoreRequest $request): JsonResponse
     {

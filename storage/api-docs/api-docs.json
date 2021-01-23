@@ -1,1179 +1,251 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.0",
     "info": {
-        "title": "Laravel",
-        "description": "",
+        "title": "Rate it",
+        "description": "Oprogramowanie do testowania alkoholu",
         "version": "1.0.0"
     },
-    "host": "http:\/\/localhost",
-    "basePath": "\/",
     "paths": {
-        "\/api\/documentation": {
-            "get": {
-                "summary": "Display Swagger API page.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/docs\/{jsonFile}": {
-            "get": {
-                "summary": "Dump api-docs content endpoint. Supports dumping a json, or yaml file.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "jsonFile",
-                        "type": "string",
-                        "required": false,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/docs\/asset\/{asset}": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "asset",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/oauth2-callback": {
-            "get": {
-                "summary": "Display Oauth2 callback pages.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/api\/user": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/api\/degustations": {
-            "get": {
-                "summary": "Display a listing of the resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
+        "/api/login": {
             "post": {
-                "summary": "Store a newly created resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "name"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
+                "tags": [
+                    "autentykacja"
+                ],
+                "summary": "Logowanie",
+                "description": "Logowanie za pomocą loginu i hasła.",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Dane logowania użytkownika",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "login",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "login": {
+                                        "type": "string",
+                                        "example": "nickname|email@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
                                 },
-                                "description": {
-                                    "type": "string"
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Zalogowano poprawnie.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "7qQ0h6rLQk75pcrcugCRjqjQEHpjGzG3Shj7InDkq8HsG4xiD3Z21vuv6plDdKc6qcF54UJDWjb6vBIG"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Niepoprawne dane logowania.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "login": {
+                                                        "type": "string"
+                                                    },
+                                                    "password": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     }
-                ]
+                },
+                "security": []
             }
         },
-        "\/api\/degustations\/{degustation}": {
-            "get": {
-                "summary": "Display the specified resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "put": {
-                "summary": "Update the specified resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "name"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "autentykacja"
+                ],
+                "summary": "Rejestracja",
+                "description": "Rejestrowanie konta za pomocą loginu, emaila i hasła.",
+                "operationId": "authRegister",
+                "requestBody": {
+                    "description": "Dane do rejestracji użytkownika",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "login",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "email@example.com"
+                                    },
+                                    "login": {
+                                        "type": "string",
+                                        "example": "nickname"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
                                 },
-                                "description": {
-                                    "type": "string"
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Zalogowano poprawnie.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "7qQ0h6rLQk75pcrcugCRjqjQEHpjGzG3Shj7InDkq8HsG4xiD3Z21vuv6plDdKc6qcF54UJDWjb6vBIG"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Niepoprawne dane logowania.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "login": {
+                                                        "type": "string"
+                                                    },
+                                                    "email": {
+                                                        "type": "string"
+                                                    },
+                                                    "password": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     }
-                ]
-            },
-            "delete": {
-                "summary": "Remove the specified resource from storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
                 },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
+                "security": []
             }
         },
-        "\/api\/degustations\/{degustation}\/products": {
+        "/api/degustations": {
             "get": {
-                "summary": "Display a listing of the resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
+                "tags": [
+                    "degustacje"
+                ],
+                "summary": "Lista degustacji",
+                "operationId": "App\\Http\\Controllers\\Api\\DegustationController::index",
                 "parameters": [
                     {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer {access-token}",
                         "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "post": {
-                "summary": "Store a newly created resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
                         "schema": {
-                            "type": "object",
-                            "required": [
-                                "name"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
+                            "type": "bearerAuth"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Wyświetla listę degustacji przypisanych do konta właściciela lub członków.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "Wyświetla listę wszystkich degustacji",
+                                            "type": "integer",
+                                            "example": "1"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     }
-                ]
-            }
-        },
-        "\/api\/degustations\/{degustation}\/products\/{product}": {
-            "get": {
-                "summary": "Display the specified resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
                 },
-                "parameters": [
+                "security": [
                     {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "product",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "put": {
-                "summary": "Update the specified resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "product",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "name"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "Remove the specified resource from storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "product",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/degustations\/{degustation}\/members": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/degustations\/{degustation}\/members\/{member}": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "member",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "member",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/invitations\/{invitationKey}": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "invitationKey",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/degustations\/{degustation}\/features": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
+                        "bearer": []
                     }
                 ]
             },
             "post": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
+                "tags": [
+                    "degustacje"
+                ],
+                "summary": "Tworzenie nowej degustacji",
+                "operationId": "App\\Http\\Controllers\\Api\\DegustationController::store",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Tworzy nową degustację."
                     }
                 },
-                "parameters": [
+                "security": [
                     {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
+                        "bearer": []
                     }
                 ]
-            }
-        },
-        "\/api\/degustations\/{degustation}\/features\/{feature}": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "feature",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "put": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "feature",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "feature",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/login": {
-            "post": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/api\/login\/{socialType}": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "socialType",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/login\/{socialType}\/callback": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "socialType",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/api\/register": {
-            "post": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/login": {
-            "get": {
-                "summary": "Show the application's login form.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "post": {
-                "summary": "Handle a login request to the application.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/logout": {
-            "post": {
-                "summary": "Log the user out of the application.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/register": {
-            "get": {
-                "summary": "Show the application registration form.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "post": {
-                "summary": "Handle a registration request for the application.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/password\/reset": {
-            "get": {
-                "summary": "Display the form to request a password reset link.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "post": {
-                "summary": "Reset the given user's password.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/password\/email": {
-            "post": {
-                "summary": "Send a reset link to the given user.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/password\/reset\/{token}": {
-            "get": {
-                "summary": "Display the password reset view for the given token.",
-                "description": "If no token is present, display the link request form.",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "token",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/password\/confirm": {
-            "get": {
-                "summary": "Display the password confirmation view.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "post": {
-                "summary": "Confirm the given user's password.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/dashboard": {
-            "get": {
-                "summary": "Show the application dashboard.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/degustations": {
-            "get": {
-                "summary": "Display a listing of the resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            },
-            "post": {
-                "summary": "Store a newly created resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "name"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "description": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ]
-            }
-        },
-        "\/degustations\/{degustation}": {
-            "get": {
-                "summary": "Display the specified resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "put": {
-                "summary": "Update the specified resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "Remove the specified resource from storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/degustations\/{degustation}\/products": {
-            "get": {
-                "summary": "Display a listing of the resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "post": {
-                "summary": "Store a newly created resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "name"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ]
-            }
-        },
-        "\/degustations\/{degustation}\/products\/{product}": {
-            "get": {
-                "summary": "Display the specified resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "product",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "put": {
-                "summary": "Update the specified resource in storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "product",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "",
-                        "schema": {
-                            "type": "object",
-                            "required": [
-                                "name"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "Remove the specified resource from storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "product",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/degustations\/{degustation}\/members": {
-            "get": {
-                "summary": "Display a listing of the resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/degustations\/{degustation}\/members\/{member}": {
-            "get": {
-                "summary": "Display the specified resource.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "member",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            },
-            "delete": {
-                "summary": "Remove the specified resource from storage.",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "degustation",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    },
-                    {
-                        "in": "path",
-                        "name": "member",
-                        "type": "string",
-                        "required": true,
-                        "description": ""
-                    }
-                ]
-            }
-        },
-        "\/login\/facebook": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/login\/facebook\/callback": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/login\/google": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "\/login\/google\/callback": {
-            "get": {
-                "summary": "",
-                "description": "",
-                "deprecated": false,
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
             }
         }
-    }
+    },
+    "security": [
+        []
+    ]
 }
