@@ -85,6 +85,8 @@ Route::get('/login/{socialType}', [LoginController::class, 'redirectToProvider']
     ->name('api.login.socialmedia');
 Route::get('/login/{socialType}/callback', [LoginController::class, 'handleProviderCallback'])
     ->name('api.login.socialmedia.callback');
+Route::post('/login/{socialType}/callback', [LoginController::class, 'handleProviderCallback'])
+    ->name('api.login.socialmedia.callback.post');
 
 Route::post('/register', [RegisterController::class, 'register'])
     ->name('api.register');
