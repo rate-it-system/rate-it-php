@@ -26,6 +26,9 @@ class AddDegustationfeaturesIdToproduktevaluationsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('produktevaluations', function (Blueprint $table) {
+            $table->dropColumn('degustationfeatures_id');
+            $table->bigInteger('degustation_id')->index();
+        });
     }
 }
