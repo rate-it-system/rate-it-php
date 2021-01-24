@@ -43,13 +43,13 @@ class ProductController extends Controller
     {
         $user = $request->user();
 
-        if($user->id !== (int)$degustation->owner_id){
+        if ($user->id !== (int)$degustation->owner_id) {
             return response()->json([
                 'message' => 'You do not have access to this resource.'
             ], 403);
         }
 
-        if($degustation->status !== 'created'){
+        if ($degustation->status !== 'created') {
             return response()->json([
                 'message' => 'Cannot be edited while degustation is in progress.'
             ], 403);
@@ -76,8 +76,9 @@ class ProductController extends Controller
         $user = $request->user();
         $member = $user->memberships()->select('id')->where('degustation_id', $degustation->id)->first();
 
-        if(($user->id === (int)$degustation->owner_id || $member) && $product &&
+        if (($user->id === (int)$degustation->owner_id || $member) && $product &&
             $degustation->id === (int)$product->degustation_id) {
+            $product->addAvgRating();
             return response()->json($product);
         }
 
@@ -98,15 +99,15 @@ class ProductController extends Controller
     {
         $user = $request->user();
 
-        if($user->id !== (int)$degustation->owner_id ||
+        if ($user->id !== (int)$degustation->owner_id ||
             !$product ||
-            $degustation->id !== (int)$product->degustation_id){
+            $degustation->id !== (int)$product->degustation_id) {
             return response()->json([
                 'message' => 'You do not have access to this resource.'
             ], 403);
         }
 
-        if($degustation->status !== 'created'){
+        if ($degustation->status !== 'created') {
             return response()->json([
                 'message' => 'Cannot be edited while degustation is in progress.'
             ], 403);
@@ -129,12 +130,12 @@ class ProductController extends Controller
     public function destroy(Request $request, Degustation $degustation, Product $product): \Illuminate\Http\JsonResponse
     {
         $user = $request->user();
-        if($user->id === (int)$degustation->owner_id && $degustation->id === (int)$product->degustation_id) {
+        if ($user->id === (int)$degustation->owner_id && $degustation->id === (int)$product->degustation_id) {
             $product->delete();
             return response()->json([
                 'status' => 'ok'
             ]);
-        } else if($degustation->status !== 'created'){
+        } else if ($degustation->status !== 'created') {
             return response()->json([
                 'message' => 'Cannot be edited while degustation is in progress.'
             ], 403);
