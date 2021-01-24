@@ -13,6 +13,13 @@ use Illuminate\Routing\Controller as BaseController;
  *      title="Rate it",
  *      description="Oprogramowanie do testowania alkoholu",
  * )
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      in="header",
+ *      type="http",
+ *      name="bearerAuth",
+ *      scheme="Bearer"
+ * )
  */
 class Controller extends BaseController
 {

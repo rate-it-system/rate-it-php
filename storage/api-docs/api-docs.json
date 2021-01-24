@@ -190,28 +190,118 @@
                 ],
                 "summary": "Lista degustacji",
                 "operationId": "App\\Http\\Controllers\\Api\\DegustationController::index",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer {access-token}",
-                        "required": true,
-                        "schema": {
-                            "type": "bearerAuth"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Wyświetla listę degustacji przypisanych do konta właściciela lub członków.",
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "Wyświetla listę wszystkich degustacji",
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "owner_id": {
+                                                "description": "Wyświetla listę wszystkich degustacji",
+                                                "type": "integer",
+                                                "example": "1"
+                                            },
+                                            "name": {
+                                                "description": "Wyświetla listę wszystkich degustacji",
+                                                "type": "string",
+                                                "example": "Przykładowa nazwa"
+                                            },
+                                            "invitation_key": {
+                                                "description": "Wyświetla listę wszystkich degustacji",
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "description": "Wyświetla listę wszystkich degustacji",
+                                                "type": "string"
+                                            },
+                                            "updated_at": {
+                                                "description": "Wyświetla listę wszystkich degustacji",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "degustacje"
+                ],
+                "summary": "Tworzenie nowej degustacji",
+                "operationId": "App\\Http\\Controllers\\Api\\DegustationController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Store a newly created resource in storage.",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Store a newly created resource in storage.",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tworzy nową degustację i wyświetla informacje na temat nowej degustacji.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "properties": {
                                         "id": {
-                                            "description": "Wyświetla listę wszystkich degustacji",
+                                            "description": "Store a newly created resource in storage.",
                                             "type": "integer",
                                             "example": "1"
+                                        },
+                                        "owner_id": {
+                                            "description": "Store a newly created resource in storage.",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "name": {
+                                            "description": "Store a newly created resource in storage.",
+                                            "type": "string",
+                                            "example": "Przykładowa nazwa"
+                                        },
+                                        "invitation_key": {
+                                            "description": "Store a newly created resource in storage.",
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "description": "Store a newly created resource in storage.",
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "description": "Store a newly created resource in storage.",
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -222,26 +312,107 @@
                 },
                 "security": [
                     {
-                        "bearer": []
+                        "bearerAuth": []
                     }
                 ]
-            },
-            "post": {
+            }
+        },
+        "/api/degustations/{id}": {
+            "get": {
                 "tags": [
                     "degustacje"
                 ],
                 "summary": "Tworzenie nowej degustacji",
-                "operationId": "App\\Http\\Controllers\\Api\\DegustationController::store",
+                "operationId": "App\\Http\\Controllers\\Api\\DegustationController::show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Tworzy nową degustację."
+                        "description": "Tworzy nową degustację i wyświetla informacje na temat nowej degustacji.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "description": "Display the specified resource.",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "owner_id": {
+                                            "description": "Display the specified resource.",
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "owner": {
+                                            "description": "Display the specified resource.",
+                                            "type": "object",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Display the specified resource.",
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "login": {
+                                                        "description": "Display the specified resource.",
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Display the specified resource.",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "name": {
+                                            "description": "Display the specified resource.",
+                                            "type": "string",
+                                            "example": "Przykładowa nazwa"
+                                        },
+                                        "invitation_key": {
+                                            "description": "Display the specified resource.",
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "description": "Display the specified resource.",
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "description": "Display the specified resource.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "bearer": []
+                        "bearerAuth": []
                     }
                 ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "scheme": "Bearer"
             }
         }
     },

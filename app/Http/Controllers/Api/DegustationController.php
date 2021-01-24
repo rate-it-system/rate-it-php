@@ -22,24 +22,21 @@ class DegustationController extends Controller
      * @OA\Get(
      *     path="/api/degustations",
      *     summary="Lista degustacji",
-     *     security={ {"bearer": {} }},
+     *     security={ {"bearerAuth": {} }},
      *     tags={"degustacje"},
-     *     @OA\Parameter(
-     *         name="Authorization",
-     *         in="header",
-     *         required=true,
-     *         description="Bearer {access-token}",
-     *         @OA\Schema(
-     *              securityDefinition="Bearer",
-     *              type="apiKey"
-     *         )
-     *     ),
      *     @OA\Response(
      *          response="200",
      *          description="Wyświetla listę degustacji przypisanych do konta właściciela lub członków.",
      *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="id", type="integer", example="1")
+     *              type="array",
+     *              @OA\Items(
+     *                  @OA\Property(property="id", type="integer", example="1"),
+     *                  @OA\Property(property="owner_id", type="integer", example="1"),
+     *                  @OA\Property(property="name", type="string", example="Przykładowa nazwa"),
+     *                  @OA\Property(property="invitation_key", type="string"),
+     *                  @OA\Property(property="created_at", type="string"),
+     *                  @OA\Property(property="updated_at", type="string")
+     *              )
      *          )
      *     )
      * )
@@ -70,12 +67,29 @@ class DegustationController extends Controller
      * @return JsonResponse
      * @OA\Post(
      *     path="/api/degustations",
-     *     security={ {"bearer": {} }},
+     *     security={ {"bearerAuth": {} }},
      *     summary="Tworzenie nowej degustacji",
      *     tags={"degustacje"},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name"},
+     *              @OA\Property(property="name", type="string"),
+     *              @OA\Property(property="description", type="string")
+     *          )
+     *     ),
      *     @OA\Response(
-     *      response="200",
-     *      description="Tworzy nową degustację."
+     *          response="200",
+     *          description="Tworzy nową degustację i wyświetla informacje na temat nowej degustacji.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", example="1"),
+     *              @OA\Property(property="owner_id", type="integer", example="1"),
+     *              @OA\Property(property="name", type="string", example="Przykładowa nazwa"),
+     *              @OA\Property(property="invitation_key", type="string"),
+     *              @OA\Property(property="created_at", type="string"),
+     *              @OA\Property(property="updated_at", type="string")
+     *          )
      *     )
      * )
      */
@@ -96,6 +110,45 @@ class DegustationController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @OA\Get(
+     *     path="/api/degustations/{id}",
+     *     security={ {"bearerAuth": {} }},
+     *     summary="Tworzenie nowej degustacji",
+     *     tags={"degustacje"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response="200",
+     *          description="Tworzy nową degustację i wyświetla informacje na temat nowej degustacji.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", example="1"),
+     *              @OA\Property(property="owner_id", type="integer", example="1"),
+     *              @OA\Property(
+     *                  property="owner",
+     *                  type="object",
+     *                  @OA\Items(
+     *                      @OA\Property(property="id", type="integer", example="1"),
+     *                      @OA\Property(property="login", type="string"),
+     *                      @OA\Property(property="created_at", type="string")
+     *                  )
+     *              ),
+     *              @OA\Property(property="name", type="string", example="Przykładowa nazwa"),
+     *              @OA\Property(property="invitation_key", type="string"),
+     *              @OA\Property(property="created_at", type="string"),
+     *              @OA\Property(property="updated_at", type="string")
+     *          )
+     *     )
+     * )
+     *
      *
      * @param Request $request
      * @param Degustation $degustation
