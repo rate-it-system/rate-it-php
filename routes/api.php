@@ -5,21 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::middleware('auth:api')->name('api.')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', 'Api\UserController@user');
 
     Route::get('degustations/{degustation}/redyToStart', 'Api\SessionController@userReady')
         ->name('redyToStart');
@@ -98,6 +85,8 @@ Route::get('/login/{socialType}', [LoginController::class, 'redirectToProvider']
     ->name('api.login.socialmedia');
 Route::get('/login/{socialType}/callback', [LoginController::class, 'handleProviderCallback'])
     ->name('api.login.socialmedia.callback');
+Route::post('/login/{socialType}/callback', [LoginController::class, 'handleProviderCallback'])
+    ->name('api.login.socialmedia.callback.post');
 
 Route::post('/register', [RegisterController::class, 'register'])
     ->name('api.register');

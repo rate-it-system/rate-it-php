@@ -11,6 +11,57 @@ use Illuminate\Support\Str;
 class RegisterController extends Controller
 {
     /**
+     * @OA\Post(
+     * path="/api/register",
+     * summary="Rejestracja",
+     * security={},
+     * description="Rejestrowanie konta za pomocą loginu, emaila i hasła.",
+     * operationId="authRegister",
+     * tags={"autentykacja"},
+     *
+     * @OA\RequestBody(
+     *    required=true,
+     *    description="Dane do rejestracji użytkownika",
+     *    @OA\JsonContent(
+     *       required={"login","email","password"},
+     *       @OA\Property(property="email", type="string", format="email", example="email@example.com"),
+     *       @OA\Property(property="login", type="string", example="nickname"),
+     *       @OA\Property(property="password", type="string", format="password", example="PassWord12345")
+     *    ),
+     * ),
+     * @OA\Response(
+     *    response=200,
+     *    description="Zalogowano poprawnie.",
+     *    @OA\JsonContent(
+     *       @OA\Property(
+     *          property="token",
+     *          type="string",
+     *          example="7qQ0h6rLQk75pcrcugCRjqjQEHpjGzG3Shj7InDkq8HsG4xiD3Z21vuv6plDdKc6qcF54UJDWjb6vBIG"
+     *       )
+     *    )
+     * ),
+     * @OA\Response(
+     *    response=422,
+     *    description="Niepoprawne dane logowania.",
+     *    @OA\JsonContent(
+     *       @OA\Property(
+     *          property="message",
+     *          type="string"
+     *       ),
+     *       @OA\Property(
+     *          property="errors",
+     *          type="array",
+     *          @OA\Items(
+     *              @OA\Property(property="login", type="string"),
+     *              @OA\Property(property="email", type="string"),
+     *              @OA\Property(property="password", type="string")
+     *          )
+     *       )
+     *    )
+     * )
+     *
+     * )
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

@@ -129,8 +129,8 @@ class ProductController extends Controller
     public function destroy(Request $request, Degustation $degustation, Product $product): \Illuminate\Http\JsonResponse
     {
         $user = $request->user();
-        if($user->id !== (int)$degustation->owner_id) {
-            $degustation->products()->findOrFail($product->id)->delete();
+        if($user->id === (int)$degustation->owner_id && $degustation->id === (int)$product->degustation_id) {
+            $product->delete();
             return response()->json([
                 'status' => 'ok'
             ]);

@@ -100,7 +100,7 @@ class FeatureController extends Controller
         $user = $request->user();
         $member = $user->memberships()->select('id')->where('degustation_id', $degustation->id)->first();
 
-        if(($user->id !== (int)$degustation->owner_id && !$member) ||
+        if($user->id !== (int)$degustation->owner_id || $member ||
             $degustation->id !== (int)$feature->degustation_id) {
             return response()->json([
                 'message' => 'You do not have access to this resource.'
